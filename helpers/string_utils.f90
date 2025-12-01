@@ -1,12 +1,12 @@
-module string_utils
-    implicit none
-contains
+MODULE string_utils
+    IMPLICIT NONE
+CONTAINS
 
-    integer function parse_int(string) result(value)
-        character(*), intent(in) :: string
+    INTEGER FUNCTION ParseInt(string) RESULT(value)
+        CHARACTER(*), INTENT(IN) :: string
 
-        read(string, *) value
+        READ(string, *) value
 
-    end function parse_int
+    END FUNCTION ParseInt
 
-end module string_utils
+END MODULE string_utils

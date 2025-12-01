@@ -1,72 +1,72 @@
-program main
-    use io_utils
-    use string_utils
-    implicit none
+PROGRAM main
+    USE io_utils
+    USE string_utils
+    IMPLICIT NONE
 
-    character(len=200), allocatable :: lines(:)
-    integer :: n, i
-    character(len=200) :: line
-    character(len=1) :: direction
-    integer :: clicks
-    integer :: currentPosition
+    CHARACTER(LEN=200), ALLOCATABLE :: lines(:)
+    INTEGER :: n, i
+    CHARACTER(LEN=200) :: line
+    CHARACTER(LEN=1) :: direction
+    INTEGER :: clicks
+    INTEGER :: currentPosition
 
-    call read_lines("2025/input/day1.txt", lines, n, verbose=.true.)
+    CALL ReadLines("2025/input/day1.txt", lines, n, verbose=.TRUE.)
 
-    block ! Part 1
-        integer :: count0
+    BLOCK ! Part 1
+        INTEGER :: count0
 
         currentPosition = 50
         count0 = 0
 
-        do i = 1, n
-            line = trim(lines(i))
+        DO i = 1, n
+            line = TRIM(lines(i))
             direction = line(1:1)
-            clicks = parse_int(line(2:))
+            clicks = ParseInt(line(2:))
 
-            if (direction == 'L') then
+            IF (direction == 'L') THEN
                 currentPosition = modulo(currentPosition - clicks, 100)
-            else    ! direction == 'R'
+            ELSE    ! direction == 'R'
                 currentPosition = modulo(currentPosition + clicks, 100)
-            end if
+            END IF
 
-            if (currentPosition == 0) count0 = count0 + 1
-        end do
+            IF (currentPosition == 0) count0 = count0 + 1
+        END DO
 
-        print *, "Day 1 part 1 =", count0
-    end block
+        PRINT *, "Day 1 part 1 =", count0
+    END BLOCK
 
-    block ! Part 2
-        integer :: clicksToZero
-        integer :: count0, total0
+    BLOCK ! Part 2
+        INTEGER :: clicksToZero
+        INTEGER :: count0, total0
 
         currentPosition = 50
         total0 = 0
 
-        do i = 1, n
-            line = trim(lines(i))
+        DO i = 1, n
+            line = TRIM(lines(i))
             direction = line(1:1)
-            clicks = parse_int(line(2:))
+            clicks = ParseInt(line(2:))
 
-            if (direction == 'R') then
-                clicksToZero = 100 - currentPosition
-                currentPosition = modulo(currentPosition + clicks, 100)
-            else    ! direction == 'L'
+            IF (direction == 'L') THEN
                 clicksToZero = currentPosition
                 currentPosition = modulo(currentPosition - clicks, 100)
-            end if
+            ELSE    ! direction == 'R'
+                clicksToZero = 100 - currentPosition
+                currentPosition = modulo(currentPosition + clicks, 100)
+            END IF
 
-            if (clicksToZero == 0) clicksToZero = 100
+            IF (clicksToZero == 0) clicksToZero = 100
 
-            if (clicks < clicksToZero) then
+            IF (clicks < clicksToZero) THEN
                 count0 = 0
-            else
+            ELSE
                 count0 = 1 + (clicks - clicksToZero) / 100
-            end if
+            END IF
 
             total0 = total0 + count0
-        end do
+        END DO
 
-        print *, "Day 1 part 2 =", total0
-    end block
+        PRINT *, "Day 1 part 2 =", total0
+    END BLOCK
 
-end program main
+END PROGRAM main

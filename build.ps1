@@ -1,6 +1,13 @@
-$src     = Join-Path $PSScriptRoot '2025'
-$filename    = "day1"
+if ($args.Count -ge 1) {
+    $filename = $args[0]
+}
 
+else {
+    Write-Error  "Please provide file name (e.g. 'day1')"
+    exit 1
+}
+
+$src     = Join-Path $PSScriptRoot '2025'
 $helpers = Join-Path $PSScriptRoot 'helpers'
 $outDir  = Join-Path $src 'output'
 $ioHelperObj      = Join-Path $outDir 'io_utils.o'

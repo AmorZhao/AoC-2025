@@ -1,67 +1,67 @@
-module io_utils
-    implicit none
-contains
+MODULE io_utils
+    IMPLICIT NONE
+CONTAINS
 
-    subroutine read_lines(filename, lines, n, verbose)
-        character(len=*), intent(in) :: filename
-        character(len=200), allocatable, intent(out) :: lines(:)
-        integer, intent(out) :: n
-        logical, intent(in), optional :: verbose
-        integer :: unit1, unit2, ios_open, ios_read, count, i
-        character(len=200) :: line
+    SUBROUTINE ReadLines(filename, lines, n, verbose)
+        CHARACTER(LEN=*), INTENT(IN) :: filename
+        CHARACTER(LEN=200), ALLOCATABLE, INTENT(OUT) :: lines(:)
+        INTEGER, INTENT(OUT) :: n
+        LOGICAL, INTENT(IN), OPTIONAL :: verbose
+        INTEGER :: unit1, unit2, ios_open, ios_read, count, i
+        CHARACTER(LEN=200) :: line
 
         n = 0
-        if (allocated(lines)) deallocate(lines)
+        IF (ALLOCATED(lines)) DEALLOCATE(lines)
 
         count = 0
-        open(newunit=unit1, file=filename, status="old", action="read", iostat=ios_open)
-        if (ios_open /= 0) then
-            allocate(lines(0))
+        OPEN(NEWUNIT=unit1, FILE=filename, STATUS="old", ACTION="read", IOSTAT=ios_open)
+        IF (ios_open /= 0) THEN
+            ALLOCATE(lines(0))
             n = 0
-            return
-        end if
+            RETURN
+        END IF
 
-        do
-            read(unit1, '(A)', iostat=ios_read) line
-            if (ios_read /= 0) exit
+        DO
+            READ(unit1, '(A)', IOSTAT=ios_read) line
+            IF (ios_read /= 0) EXIT
             count = count + 1
-        end do
-        close(unit1)
+        END DO
+        CLOSE(unit1)
 
-        if (count <= 0) then
-            allocate(lines(0))
+        IF (count <= 0) THEN
+            ALLOCATE(lines(0))
             n = 0
-            return
-        end if
+            RETURN
+        END IF
 
-        allocate(lines(count))
+        ALLOCATE(lines(count))
 
-        open(newunit=unit2, file=filename, status="old", action="read", iostat=ios_open)
-        if (ios_open /= 0) then
-            deallocate(lines)
-            allocate(lines(0))
+        OPEN(NEWUNIT=unit2, FILE=filename, STATUS="old", ACTION="read", IOSTAT=ios_open)
+        IF (ios_open /= 0) THEN
+            DEALLOCATE(lines)
+            ALLOCATE(lines(0))
             n = 0
-            return
-        end if
+            RETURN
+        END IF
 
-        do i = 1, count
-            read(unit2, '(A)', iostat=ios_read) line
-            if (ios_read /= 0) then
+        DO i = 1, count
+            READ(unit2, '(A)', IOSTAT=ios_read) line
+            IF (ios_read /= 0) THEN
                 lines(i) = ''
-            else
-                lines(i) = adjustl(trim(line))
-            end if
-        end do
-        close(unit2)
+            ELSE
+                lines(i) = ADJUSTL(TRIM(line))
+            END IF
+        END DO
+        CLOSE(unit2)
 
         n = count
 
-        if (present(verbose)) then
-            print *, "Read", n, "lines from ", trim(filename)
-            ! do i = 1, n
-            !     print *, trim(lines(i))
-            ! end do
-        end if
-    end subroutine read_lines
+        IF (PRESENT(verbose)) THEN
+            PRINT *, "Read", n, "lines from ", TRIM(filename)
+            ! DO i = 1, n
+            !     PRINT *, TRIM(lines(i))
+            ! END DO
+        END IF
+    END SUBROUTINE ReadLines
 
-end module io_utils
+END MODULE io_utils
