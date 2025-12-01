@@ -10,7 +10,7 @@ PROGRAM main
     INTEGER :: clicks
     INTEGER :: currentPosition
 
-    CALL ReadLines("2025/input/day1.txt", lines, n, verbose=.TRUE.)
+    CALL ReadLines("input/day1.txt", lines, n, verbose=.TRUE.)
 
     BLOCK ! Part 1
         INTEGER :: count0

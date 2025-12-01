@@ -14,7 +14,7 @@ So my mum will finally get a taste of writing a modern programming language (pro
 
 Setting up was super easy:
 
-In Msy32:
+In Msy2:
 
 ```
 pacman -Syu

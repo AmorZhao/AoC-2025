@@ -7,9 +7,8 @@ else {
     exit 1
 }
 
-$src     = Join-Path $PSScriptRoot '2025'
-$helpers = Join-Path $PSScriptRoot 'helpers'
-$outDir  = Join-Path $src 'output'
+$helpers = 'helpers'
+$outDir  = 'output'
 $ioHelperObj      = Join-Path $outDir 'io_utils.o'
 $stringHelperObj = Join-Path $outDir 'string_utils.o'
 $fileObj    = Join-Path $outDir "$filename.o"
@@ -32,7 +31,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "Building $filename..."
-& gfortran -c -g (Join-Path $src "$filename.f90") -I $outDir -o $fileObj
+& gfortran -c -g "$filename.f90" -I $outDir -o $fileObj
 
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to compile $filename.f90"
@@ -47,5 +46,5 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
-Write-Host "Running $filename..."
+Write-Host "Running $exePath..."
 & $exePath
