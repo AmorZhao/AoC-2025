@@ -1,4 +1,0 @@
-{
-  "mod_paths": ["${workspaceFolder/helpers/"],
-  "include_paths": ["${workspaceFolder}/helpers/"]
-}

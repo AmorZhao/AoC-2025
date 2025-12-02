@@ -64,4 +64,34 @@ CONTAINS
         END IF
     END SUBROUTINE ReadLines
 
+    SUBROUTINE ReadSingleLine(filename, line, verbose)
+        CHARACTER(LEN=*), INTENT(IN)            :: filename
+        CHARACTER(:), ALLOCATABLE, INTENT(OUT)  :: line
+        LOGICAL, INTENT(IN), OPTIONAL           :: verbose
+        INTEGER     :: ios, unit
+        CHARACTER(LEN=5000) :: tmp
+
+        IF (ALLOCATED(line)) DEALLOCATE(line)
+
+        OPEN(NEWUNIT=unit, FILE=filename, STATUS="old", ACTION="read", IOSTAT=ios)
+        IF (ios /= 0) THEN
+            ALLOCATE(CHARACTER(LEN=0) :: line)
+            RETURN
+        END IF
+
+        READ(unit, '(A)', IOSTAT=ios) tmp
+        CLOSE(unit)
+
+        IF (ios == 0) THEN
+            ALLOCATE(CHARACTER(LEN=LEN_TRIM(tmp)) :: line)
+            line = TRIM(tmp)
+        ELSE
+            ALLOCATE(CHARACTER(LEN=0) :: line)
+        END IF
+
+        IF (PRESENT(verbose)) THEN
+            PRINT *, "Read from ", TRIM(filename), ": ", TRIM(line)
+        END IF
+    END SUBROUTINE ReadSingleLine
+
 END MODULE io_utils
