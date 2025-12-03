@@ -2,12 +2,19 @@ MODULE string_utils
     IMPLICIT NONE
 CONTAINS
 
-    INTEGER(8) FUNCTION ParseInt(string) RESULT(value)
+    INTEGER(8) FUNCTION ParseInt_I8(string) RESULT(value)
         CHARACTER(*), INTENT(IN) :: string
         INTEGER(8) :: tmp
 
         READ(string, *) tmp
         value = tmp
+        RETURN
+    END FUNCTION ParseInt_I8
+
+    INTEGER FUNCTION ParseInt(string) RESULT(value)
+        CHARACTER(*), INTENT(IN) :: string
+
+        READ(string, *) value
         RETURN
     END FUNCTION ParseInt
 

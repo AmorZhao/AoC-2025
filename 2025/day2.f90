@@ -32,8 +32,8 @@ PROGRAM main
 
         DO i = 1, SIZE(ranges)
             dashPosition  = INDEX(ranges(i), '-')
-            leftBound     = ParseInt(TRIM(ranges(i)(1:dashPosition-1)))
-            rightBound    = ParseInt(TRIM(ranges(i)(dashPosition+1:)))
+            leftBound     = ParseInt_I8(TRIM(ranges(i)(1:dashPosition-1)))
+            rightBound    = ParseInt_I8(TRIM(ranges(i)(dashPosition+1:)))
 
             WRITE(leftString, '(I0)') leftBound
             WRITE(rightString, '(I0)') rightBound
@@ -96,8 +96,8 @@ PROGRAM main
 
         DO i = 1, SIZE(ranges)
             dashPosition = INDEX(ranges(i), '-')
-            leftBound  = ParseInt(TRIM(ranges(i)(1:dashPosition-1)))
-            rightBound = ParseInt(TRIM(ranges(i)(dashPosition+1:)))
+            leftBound  = ParseInt_I8(TRIM(ranges(i)(1:dashPosition-1)))
+            rightBound = ParseInt_I8(TRIM(ranges(i)(dashPosition+1:)))
 
             WRITE(leftString,  '(I0)') leftBound
             WRITE(rightString, '(I0)') rightBound
@@ -183,8 +183,8 @@ PROGRAM main
 
         DO i = 1, SIZE(ranges)
             dashPosition  = INDEX(ranges(i), '-')
-            leftBound     = ParseInt(TRIM(ranges(i)(1:dashPosition-1)))
-            rightBound    = ParseInt(TRIM(ranges(i)(dashPosition+1:)))
+            leftBound     = ParseInt_I8(TRIM(ranges(i)(1:dashPosition-1)))
+            rightBound    = ParseInt_I8(TRIM(ranges(i)(dashPosition+1:)))
 
             DO candidate = leftBound, rightBound
                 IF (IsRepeatedPattern(candidate)) THEN
