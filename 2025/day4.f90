@@ -3,7 +3,7 @@ PROGRAM main
     USE string_utils
     IMPLICIT NONE
 
-    CHARACTER(LEN=200), ALLOCATABLE :: matrix(:,:)
+    CHARACTER, ALLOCATABLE :: matrix(:,:)
     INTEGER :: numRows, numColumns
 
     CALL ReadMatrix("input/day4.txt", matrix, numRows, numColumns, verbose=.TRUE.)

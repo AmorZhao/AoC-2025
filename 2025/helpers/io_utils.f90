@@ -96,7 +96,7 @@ CONTAINS
 
     SUBROUTINE ReadMatrix(filename, matrix, numRows, numColumns, verbose)
         CHARACTER(LEN=*), INTENT(IN) :: filename
-        CHARACTER(LEN=200), ALLOCATABLE, INTENT(OUT) :: matrix(:,:)
+        CHARACTER, ALLOCATABLE, INTENT(OUT) :: matrix(:,:)
         INTEGER, INTENT(OUT) :: numRows, numColumns
         LOGICAL, INTENT(IN), OPTIONAL :: verbose
         CHARACTER(LEN=200), ALLOCATABLE :: lines(:)
