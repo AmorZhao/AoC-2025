@@ -56,7 +56,7 @@ CONTAINS
 
         n = count
 
-        IF (PRESENT(verbose)) THEN
+        IF (verbose) THEN
             PRINT *, "Read", n, "lines from ", TRIM(filename)
             ! DO i = 1, n
             !     PRINT *, TRIM(lines(i))
@@ -89,9 +89,35 @@ CONTAINS
             ALLOCATE(CHARACTER(LEN=0) :: line)
         END IF
 
-        IF (PRESENT(verbose)) THEN
+        IF (verbose) THEN
             PRINT *, "Read from ", TRIM(filename), ": ", TRIM(line)
         END IF
     END SUBROUTINE ReadSingleLine
+
+    SUBROUTINE ReadMatrix(filename, matrix, numRows, numColumns, verbose)
+        CHARACTER(LEN=*), INTENT(IN) :: filename
+        CHARACTER(LEN=200), ALLOCATABLE, INTENT(OUT) :: matrix(:,:)
+        INTEGER, INTENT(OUT) :: numRows, numColumns
+        LOGICAL, INTENT(IN), OPTIONAL :: verbose
+        CHARACTER(LEN=200), ALLOCATABLE :: lines(:)
+        INTEGER :: n, i, j
+
+        CALL ReadLines(filename, lines, n, .FALSE.)
+
+        numRows = n
+        numColumns = LEN_TRIM(lines(1))
+        ALLOCATE(matrix(numRows, numColumns))
+
+        DO i = 1, numRows
+            DO j = 1, numColumns
+                matrix(i,j) = lines(i)(j:j)
+            END DO
+        END DO
+
+        IF (verbose) THEN
+            PRINT *, "Read matrix of size ", numRows, " x ", numColumns, " from ", TRIM(filename)
+        END IF
+
+    END SUBROUTINE ReadMatrix
 
 END MODULE io_utils
