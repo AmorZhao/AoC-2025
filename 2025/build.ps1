@@ -12,6 +12,7 @@ $outDir  = 'output'
 $ioHelperObj      = Join-Path $outDir 'io_utils.o'
 $stringHelperObj  = Join-Path $outDir 'string_utils.o'
 $arrayHelperObj   = Join-Path $outDir 'array_utils.o'
+$numberHelperObj  = Join-Path $outDir 'number_utils.o'
 $fileObj    = Join-Path $outDir "$filename.o"
 $exePath    = Join-Path $outDir "$filename.exe"
 
@@ -39,6 +40,14 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Host "Building number_utils module..."
+& gfortran -c -g (Join-Path $helpers 'number_utils.f90') -J $outDir -o $numberHelperObj
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to compile number_utils.f90"
+    exit $LASTEXITCODE
+}
+
 Write-Host "Building $filename..."
 & gfortran -c -g "$filename.f90" -I $outDir -o $fileObj
 
@@ -48,7 +57,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "Linking..."
-& gfortran -g $ioHelperObj $stringHelperObj $arrayHelperObj $fileObj -o $exePath
+& gfortran -g $ioHelperObj $stringHelperObj $arrayHelperObj $numberHelperObj $fileObj -o $exePath
 
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Link failed"

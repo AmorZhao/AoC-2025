@@ -19,14 +19,16 @@ PROGRAM main
         DO i = 1, numRows
             DO j = 1, numColumns
                 IF (matrix(i,j) == '@') THEN
-                    upperBound = max(1, i-1)
-                    lowerBound = min(numRows, i+1)
-                    leftBound  = max(1, j-1)
-                    rightBound = min(numColumns, j+1)
+                    upperBound = MAX(1, i-1)
+                    lowerBound = MIN(numRows, i+1)
+                    leftBound  = MAX(1, j-1)
+                    rightBound = MIN(numColumns, j+1)
 
                     countAdjacent = COUNT( matrix(upperBound:lowerBound, leftBound:rightBound) == '@' ) - 1
 
-                    if (countAdjacent < 4) countAccessible = countAccessible + 1
+                    IF (countAdjacent < 4) THEN
+                        countAccessible = countAccessible + 1
+                    END IF
                 END IF
             END DO
         END DO
@@ -48,10 +50,10 @@ PROGRAM main
             DO i = 1, numRows
                 DO j = 1, numColumns
                     IF (matrix(i,j) == '@') THEN
-                        upperBound = max(1, i-1)
-                        lowerBound = min(numRows, i+1)
-                        leftBound  = max(1, j-1)
-                        rightBound = min(numColumns, j+1)
+                        upperBound = MAX(1, i-1)
+                        lowerBound = MIN(numRows, i+1)
+                        leftBound  = MAX(1, j-1)
+                        rightBound = MIN(numColumns, j+1)
 
                         countAdjacent = COUNT( matrix(upperBound:lowerBound, leftBound:rightBound) == '@' ) - 1
 
