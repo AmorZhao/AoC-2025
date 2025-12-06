@@ -4,11 +4,11 @@ CONTAINS
 
     SUBROUTINE ReadLines(filename, lines, n, verbose)
         CHARACTER(LEN=*), INTENT(IN) :: filename
-        CHARACTER(LEN=200), ALLOCATABLE, INTENT(OUT) :: lines(:)
+        CHARACTER(LEN=*), ALLOCATABLE, INTENT(OUT) :: lines(:)
         INTEGER, INTENT(OUT) :: n
         LOGICAL, INTENT(IN), OPTIONAL :: verbose
         INTEGER :: unit1, unit2, ios_open, ios_read, count, i
-        CHARACTER(LEN=200) :: line
+        CHARACTER(LEN=LEN(lines(1))) :: line
 
         n = 0
         IF (ALLOCATED(lines)) DEALLOCATE(lines)
@@ -49,7 +49,7 @@ CONTAINS
             IF (ios_read /= 0) THEN
                 lines(i) = ''
             ELSE
-                lines(i) = ADJUSTL(TRIM(line))
+                lines(i) = TRIM(line)
             END IF
         END DO
         CLOSE(unit2)
