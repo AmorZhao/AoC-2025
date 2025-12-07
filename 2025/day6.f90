@@ -55,10 +55,8 @@ PROGRAM main
                 END DO
 
             ELSE IF (currentSymbol .EQ. '*') THEN
-                line = TRIM(lines(1))
-                resultArray(resultIndex) = ParseInt_I8(line(i:nextSymbolIndex-2))
-
-                DO j = 2, n-1
+                resultArray(resultIndex) = 1
+                DO j = 1, n-1
                     line = TRIM(lines(j))
                     resultArray(resultIndex) = resultArray(resultIndex) * ParseInt_I8(line(i:nextSymbolIndex-2))
                 END DO
@@ -74,10 +72,8 @@ PROGRAM main
             END DO
 
         ELSE IF (currentSymbol .EQ. '*') THEN
-            line = TRIM(lines(1))
-            resultArray(resultIndex) = ParseInt_I8(line(nextSymbolIndex:))
-
-            DO j = 2, n-1
+            resultArray(resultIndex) = 1
+            DO j = 1, n-1
                 line = TRIM(lines(j))
                 resultArray(resultIndex) = resultArray(resultIndex) * ParseInt_I8(line(nextSymbolIndex:))
             END DO
@@ -154,20 +150,9 @@ PROGRAM main
 
             ELSE IF (currentSymbol .EQ. '*') THEN
                 tmpColumnarString = ''
+                resultArray(resultIndex) = 1
 
-                DO j = 1, n-1
-                    line = lines(j)
-                    IF (line(i:i) .NE. ' ') THEN
-                        tmpColumnarString(j:j) = line(i:i)
-                    ELSE
-                        tmpColumnarString(j:j) = ''
-                    END IF
-                END DO
-
-                tmpColumnarValue = ParseInt_I8(TRIM(tmpColumnarString))
-                resultArray(resultIndex) = tmpColumnarValue
-
-                DO columnarIndex = i+1, nextSymbolIndex-2
+                DO columnarIndex = i, nextSymbolIndex-2
                     DO j = 1, n-1
                         line = lines(j)
                         IF (line(columnarIndex:columnarIndex) .NE. ' ') THEN
@@ -205,20 +190,9 @@ PROGRAM main
 
         ELSE IF (currentSymbol .EQ. '*') THEN
             tmpColumnarString = ''
+            resultArray(resultIndex) = 1
 
-            DO j = 1, n-1
-                line = lines(j)
-                IF (line(i:i) .NE. ' ') THEN
-                    tmpColumnarString(j:j) = line(i:i)
-                ELSE
-                    tmpColumnarString(j:j) = ''
-                END IF
-            END DO
-
-            tmpColumnarValue = ParseInt_I8(TRIM(tmpColumnarString))
-            resultArray(resultIndex) = tmpColumnarValue
-
-            DO columnarIndex = nextSymbolIndex+1, numberLineLength
+            DO columnarIndex = nextSymbolIndex, numberLineLength
                 DO j = 1, n-1
                     line = lines(j)
                     IF (line(columnarIndex:columnarIndex) .NE. ' ') THEN
