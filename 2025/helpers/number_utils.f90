@@ -6,13 +6,19 @@ MODULE number_utils
         INTEGER(8) :: rightBound
     END TYPE Range
 
+    TYPE :: CONNECTION
+        INTEGER :: indexA
+        INTEGER :: indexB
+        INTEGER(8) :: distance    ! squared
+    END TYPE CONNECTION
+
 CONTAINS
 
     RECURSIVE SUBROUTINE QuickSort(A, left, right)
-        REAL, INTENT(INOUT) :: A(:)
+        INTEGER, INTENT(INOUT) :: A(:)
         INTEGER, INTENT(IN) :: left, right
         INTEGER :: i, j
-        REAL :: pivot, tmp
+        INTEGER :: pivot, tmp
 
         i = left
         j = right
@@ -49,7 +55,7 @@ CONTAINS
     END SUBROUTINE QuickSort
 
     SUBROUTINE Sort(A)
-        REAL, INTENT(INOUT) :: A(:)
+        INTEGER, INTENT(INOUT) :: A(:)
 
         IF (SIZE(A) > 1) THEN
             CALL QuickSort(A, 1, SIZE(A))
@@ -151,5 +157,55 @@ CONTAINS
             END IF
         END DO
     END FUNCTION IsInRange
+
+    RECURSIVE SUBROUTINE QuickSortConnections(A, left, right)
+        TYPE(CONNECTION), INTENT(INOUT) :: A(:)
+        INTEGER, INTENT(IN) :: left, right
+        INTEGER :: i, j
+        TYPE(CONNECTION) :: pivot, tmp
+
+        IF (left < 1 .OR. right > SIZE(A)) RETURN
+        IF (left >= right) RETURN
+
+        i = left
+        j = right
+        pivot = A((left + right) / 2)
+
+        DO
+            DO WHILE (A(i)%distance < pivot%distance)
+                i = i + 1
+            END DO
+
+            DO WHILE (A(j)%distance > pivot%distance)
+                j = j - 1
+            END DO
+
+            IF (i <= j) THEN
+                tmp = A(i)
+                A(i) = A(j)
+                A(j) = tmp
+                i = i + 1
+                j = j - 1
+            END IF
+
+            IF (i > j) EXIT
+        END DO
+
+        IF (left < j) THEN
+            CALL QuickSortConnections(A, left, j)
+        END IF
+
+        IF (i < right) THEN
+            CALL QuickSortConnections(A, i, right)
+        END IF
+    END SUBROUTINE QuickSortConnections
+
+    SUBROUTINE SortByDistance(connections)
+        TYPE(CONNECTION), INTENT(INOUT) :: connections(:)
+
+        IF (SIZE(connections) > 1) THEN
+            CALL QuickSortConnections(connections, 1, SIZE(connections))
+        END IF
+    END SUBROUTINE SortByDistance
 
 END MODULE number_utils
