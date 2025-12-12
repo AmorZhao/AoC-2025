@@ -62,6 +62,100 @@ CONTAINS
         END IF
     END SUBROUTINE Sort
 
+    RECURSIVE SUBROUTINE QuickSort_I8(A, left, right)
+        INTEGER(8), INTENT(INOUT) :: A(:)
+        INTEGER, INTENT(IN) :: left, right
+        INTEGER :: i, j
+        INTEGER(8) :: pivot, tmp
+
+        i = left
+        j = right
+        pivot = A((left + right) / 2)
+
+        DO
+            DO WHILE (A(i) < pivot)
+                i = i + 1
+            END DO
+
+            DO WHILE (A(j) > pivot)
+                j = j - 1
+            END DO
+
+            IF (i <= j) THEN
+                tmp = A(i)
+                A(i) = A(j)
+                A(j) = tmp
+                i = i + 1
+                j = j - 1
+            END IF
+
+            IF (i > j) EXIT
+        END DO
+
+        IF (left < j) THEN
+            CALL QuickSort_I8(A, left, j)
+        END IF
+
+        IF (i < right) THEN
+            CALL QuickSort_I8(A, i, right)
+        END IF
+
+    END SUBROUTINE QuickSort_I8
+
+    SUBROUTINE Sort_I8(A)
+        INTEGER(8), INTENT(INOUT) :: A(:)
+
+        IF (SIZE(A) > 1) THEN
+            CALL QuickSort_I8(A, 1, SIZE(A))
+        END IF
+    END SUBROUTINE Sort_I8
+
+    SUBROUTINE UniqueSort(A)
+        INTEGER, ALLOCATABLE, INTENT(INOUT) :: A(:)
+        INTEGER, ALLOCATABLE :: uniqueSorted(:)
+        INTEGER :: n, uniqueLength, i
+
+        n = SIZE(A)
+        CALL Sort(A)
+
+        ALLOCATE(uniqueSorted(n))
+        uniqueLength = 1
+        uniqueSorted(1) = A(1)
+
+        DO i = 2, n
+            IF (A(i) /= uniqueSorted(uniqueLength)) THEN
+                uniqueLength = uniqueLength + 1
+                uniqueSorted(uniqueLength) = A(i)
+            END IF
+        END DO
+
+        CALL move_alloc(uniqueSorted, A)
+        IF (SIZE(A) /= uniqueLength) THEN
+            A = A(:uniqueLength)
+        END IF
+    END SUBROUTINE UniqueSort
+
+    INTEGER FUNCTION GetIndex(A, targetValue) RESULT(index)
+        INTEGER, INTENT(IN) :: A(:), targetValue
+        INTEGER :: lowerBound, upperBound, mid
+        lowerBound = 1
+        upperBound = SIZE(A)
+        DO WHILE (lowerBound <= upperBound)
+            mid = (lowerBound + upperBound)/2
+            IF (A(mid) == targetValue) THEN
+                index = mid
+                RETURN
+            ELSE IF (A(mid) < targetValue) THEN
+                lowerBound = mid + 1
+            ELSE  ! IF (A(mid) > targetValue)
+                upperBound = mid - 1
+            END IF
+        END DO
+
+        PRINT *, "Value not found"
+        STOP
+    END FUNCTION GetIndex
+
     RECURSIVE SUBROUTINE QuickSortRanges(A, left, right)
         TYPE(Range), INTENT(INOUT) :: A(:)
         INTEGER, INTENT(IN) :: left, right
